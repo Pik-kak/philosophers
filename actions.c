@@ -6,8 +6,23 @@
 /*   By: pikkak <pikkak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 14:21:36 by pikkak            #+#    #+#             */
-/*   Updated: 2024/07/04 14:24:34 by pikkak           ###   ########.fr       */
+/*   Updated: 2024/07/04 15:03:35 by pikkak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	eat(t_philo *philo)
+{
+	
+}
+
+void	sleep(t_philo *philo)
+{
+	
+}
+
+void	think(t_philo *philo)
+{
+	
+}

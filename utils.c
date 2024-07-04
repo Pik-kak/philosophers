@@ -6,8 +6,14 @@
 /*   By: pikkak <pikkak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 14:23:52 by pikkak            #+#    #+#             */
-/*   Updated: 2024/07/04 14:24:34 by pikkak           ###   ########.fr       */
+/*   Updated: 2024/07/04 15:14:09 by pikkak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int error(char *message)
+{
+	printf("Error: %s\n" message);
+	exit ;	
+}
