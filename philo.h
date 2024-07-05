@@ -6,7 +6,7 @@
 /*   By: kkauhane <kkauhane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 14:19:59 by pikkak            #+#    #+#             */
-/*   Updated: 2024/07/05 11:59:10 by kkauhane         ###   ########.fr       */
+/*   Updated: 2024/07/05 13:34:09 by kkauhane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ typedef struct s_philo
 
 typedef struct s_data
 {
-	int					philos;
+	int					philos_count;
 	int					time_to_die;
 	int					time_to_eat;
 	int					time_to_sleep;
 	int					meals;
 	pthread_mutex_t		*forks;
-	t_philo		*philos;
+	t_philo				*philosophers;
 }			t_data;
 
 #endif
