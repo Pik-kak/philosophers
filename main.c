@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pikkak <pikkak@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kkauhane <kkauhane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 14:21:15 by pikkak            #+#    #+#             */
-/*   Updated: 2024/07/04 15:15:11 by pikkak           ###   ########.fr       */
+/*   Updated: 2024/07/05 12:02:41 by kkauhane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,15 @@ void	init_data(struct t_data *data, char **argv)
 int main(int argc, char **argv)
 {
 	t_data	*data;
+	t_philo	philos[PHILOS_MAX]
+	pthread_mutex_t	forks[PHILOS_MAX]
 	int		i;
 	
 	i = 1;
 	if(argc < 5 || argc > 6)
 		printf("Wrong amount of arguments");
-	if (argv[1] > 200)
-		error("Too many philosophers");
-	while (argv[i])
-	{
-		if (argv[i] <= 0)
-			error("Argument too small");
-		i++;
-	}
+	if (check_args(args) == 1)
+		return (1);
 	i = 0;
 	init_data(&data, argv);
 }

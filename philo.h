@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pikkak <pikkak@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kkauhane <kkauhane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 14:19:59 by pikkak            #+#    #+#             */
-/*   Updated: 2024/07/04 14:57:14 by pikkak           ###   ########.fr       */
+/*   Updated: 2024/07/05 11:59:10 by kkauhane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,28 @@
 #include <sys/time.h>
 #include <pthread.h>
 
+# define PHILOS_MAX 200
+
 typedef struct s_philo
 {
-	int	id;
-	int	last_ate;
-	int	meals_count;
-	
-	
+	p_thread_t		thread;
+	int				id;
+	int				last_ate;
+	int				meals_count;
+	int				dead;
+	pthread_mutex_t	*r_fork;
+	pthread_mutex_t	*l_fork
 }			t_philo;
 
 typedef struct s_data
 {
-	int			philos;
-	int			time_to_die;
-	int			time_to_eat;
-	int			time_to_sleep;
-	int			meals;
-	t_philo		*philosophers;
+	int					philos;
+	int					time_to_die;
+	int					time_to_eat;
+	int					time_to_sleep;
+	int					meals;
+	pthread_mutex_t		*forks;
+	t_philo		*philos;
 }			t_data;
 
 #endif
