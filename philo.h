@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkauhane <kkauhane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pikkak <pikkak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 14:19:59 by pikkak            #+#    #+#             */
-/*   Updated: 2024/07/05 13:34:09 by kkauhane         ###   ########.fr       */
+/*   Updated: 2024/07/08 13:07:41 by pikkak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@
 
 typedef struct s_philo
 {
-	p_thread_t		thread;
-	int				id;
-	int				last_ate;
-	int				meals_count;
-	int				dead;
-	pthread_mutex_t	*r_fork;
-	pthread_mutex_t	*l_fork
+	p_thread_t		thread;//thread id
+	int				id;//number of the philosopher
+	int				eating;//do we need this?
+	int				last_ate;//the timestamp of the last meal
+	int				meals_count;//meals ate
+	pthread_mutex_t	*r_fork;//pointer to the fork on the right
+	pthread_mutex_t	*l_fork//pointer to the fork on the left
 }			t_philo;
 
 typedef struct s_data
@@ -39,8 +39,12 @@ typedef struct s_data
 	int					time_to_eat;
 	int					time_to_sleep;
 	int					meals;
-	pthread_mutex_t		*forks;
-	t_philo				*philosophers;
+	int					drink_poison;//dead flag
+	pthread_mutex_t		*forks;//mutexes for all the forks
+	pthread_mutex_t		dead_lock;
+	pthread_mutex_t		write_lock;
+	pthread_mutex_t		meal_lock;
+	t_philo				*philosophers;//Array of philosophers
 }			t_data;
 
 #endif
