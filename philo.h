@@ -6,7 +6,7 @@
 /*   By: pikkak <pikkak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 14:19:59 by pikkak            #+#    #+#             */
-/*   Updated: 2024/07/08 13:07:41 by pikkak           ###   ########.fr       */
+/*   Updated: 2024/07/09 14:43:26 by pikkak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,17 @@
 
 typedef struct s_philo
 {
-	p_thread_t		thread;//thread id
+	pthread_t		thread;//thread id
 	int				id;//number of the philosopher
 	int				eating;//do we need this?
 	int				last_ate;//the timestamp of the last meal
 	int				meals_count;//meals ate
-	pthread_mutex_t	*r_fork;//pointer to the fork on the right
-	pthread_mutex_t	*l_fork//pointer to the fork on the left
+	int				*drink_poison;//pointer to the dead flag in data
+	pthread_mutex_t	*right_fork;//pointer to the fork on the right
+	pthread_mutex_t	*left_fork//pointer to the fork on the left
+	pthread_mutex_t	*dead_lock;
+	pthread_mutex_t	*write_lock;
+	pthread_mutex_t	*meal_lock;
 }			t_philo;
 
 typedef struct s_data
