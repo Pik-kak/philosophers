@@ -6,7 +6,7 @@
 /*   By: pikkak <pikkak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 14:21:15 by pikkak            #+#    #+#             */
-/*   Updated: 2024/07/08 13:56:41 by pikkak           ###   ########.fr       */
+/*   Updated: 2024/07/09 14:46:43 by pikkak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,20 @@ void	init_philos(t_philo *philos, t_data *data, pthread_mutex_t *forks)
 	i = 0;
 	while (i < data->philos_count)
 	{
-		philos[i]->id = i + 1;
-		philos[i]->eating = 0;
-		philos[i]->start = get_current_time();
-		philos[i]->last_ate = get_current_time();
-		philos[i]->meals_count = 0;
-
+		philos[i].id = i + 1;
+		philos[i].eating = 0;
+		philos[i].start = get_current_time();
+		philos[i].last_ate = get_current_time();
+		philos[i].meals_count = 0;
+		philos[i].drink_poison = &data->drink_poison;
+		philos[i].dead_lock = &data->dead_lock;
+		philos[i].meal_lock = &data->meal_lock;
+		philos[i].write_lock = &data->meal_lock;
+		philos[i].left_fork = &forks[i];
+		if (i == 0)
+			philos[i].right_fork = &forks[data->philos_count - 1];
+		else
+			philos[i].right_fork = &forks[i - 1];
 		i++;	
 	}
 }
@@ -74,16 +82,8 @@ int main(int argc, char **argv)
 	{
 		init_data(&data, philos, argv);
 		init_forks(forks, ft_atoi(argv[1]));
-		init_philos(&philos, &data, &forks);//should this make the treads as well?
-		while ()
-		{
-			if (pthread_create(&philos[i], NULL, &routine, NULL) != 0)
-				error("Could not create a thread\n");
-		}
-		while ()
-		{
-			pthread_join(philos[i], NULL);
-		}
+		init_philos(&philos, &data, forks);
+		create_threads(&data, forks);//should this return something?
 	}
 	return (0);
 }
