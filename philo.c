@@ -6,11 +6,21 @@
 /*   By: pikkak <pikkak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 14:21:07 by pikkak            #+#    #+#             */
-/*   Updated: 2024/07/09 15:01:06 by pikkak           ###   ########.fr       */
+/*   Updated: 2024/07/10 15:30:46 by pikkak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	print_message(char *message, t_philo *philo)
+{
+	int	time;
+
+	pthread_mutex_lock(*philo->write_lock)
+	time = (get_current_time() - philo->start_time);//should here be a check for the philos status alive/dead and if yes, why?
+	printf("%d %d %s\n", time, philo->id, message);
+	pthread_mutex_unlock(*philo->write_lock);
+}
 
 /*
  Extra monitor thread checks constantly that a philos is alive and they have not yet eaten enough.
@@ -24,34 +34,6 @@ void	monitoring(void *pointer)
 
 	philo = (t_philo *)pointer;
 	if (philo->meals_count)
-	return (pointer);
-}
-
-int	dead(t_philo *philo)
-{
-	pthread_mutex_lock(philo->dead_lock);
-	if (*philo->drink_poison == 1)
-	{
-		pthread_mutex_unlock(philo->dead_lock);
-		return (1);
-	}
-	pthread_mutex_unlock(philo->dead_lock);
-	return (0;)
-}
-
-void	*routine(void *pointer)//this is the routine the philo-threads call
-{
-	t_philo *philo;
-
-	philo = (t_philo *)pointer;
-	if (philo->id % 2 == 0)
-		usleep(1);
-	while (!dead(philo))
-	{
-		eat(philo);
-		sleep(philo);
-		think(philo);
-	}
 	return (pointer);
 }
 
