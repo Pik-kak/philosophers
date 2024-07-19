@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkauhane <kkauhane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pikkak <pikkak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 14:19:59 by pikkak            #+#    #+#             */
-/*   Updated: 2024/07/19 15:18:28 by kkauhane         ###   ########.fr       */
+/*   Updated: 2024/07/19 18:55:56 by pikkak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_philo
 	size_t			*time_to_sleep;
 	size_t			start;
 	int				eating;//do we need this?
-	int				last_ate;//the timestamp of the last meal
+	size_t				last_ate;//the timestamp of the last meal
 	int				*meals;
 	int				meals_count;//meals ate
 	int				*drink_poison;//pointer to the dead flag in data
@@ -58,7 +58,7 @@ typedef struct s_data
 }			t_data;
 
 //main.c
-void	init_data(t_data *data, t_philo *philos, char **argv);
+void	init_data(t_data *data, t_philo *philos, char **argv, pthread_mutex_t *forks);
 void	init_forks(pthread_mutex_t *forks, int philos);
 void	init_philos(t_philo *philos, t_data *data, pthread_mutex_t *forks);
 
@@ -69,9 +69,10 @@ int		ft_atoi(const char *str);
 //static int	count_signs(const char *s, int i);
 void 	error(char *message);
 size_t	get_time(void);
+int	ft_usleep(size_t milliseconds);
 
 //philo.c
-int		create_threads(t_data *data, pthread_mutex_t *forks);
+int		create_threads(t_data *data);
 void	*monitoring(void *pointer);
 int		check_if_all_ate(t_philo *philos);
 int		check_if_dead(t_philo *philos);

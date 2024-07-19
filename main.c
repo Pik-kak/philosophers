@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkauhane <kkauhane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pikkak <pikkak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 14:21:15 by pikkak            #+#    #+#             */
-/*   Updated: 2024/07/19 14:55:53 by kkauhane         ###   ########.fr       */
+/*   Updated: 2024/07/19 18:11:57 by pikkak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	init_forks(pthread_mutex_t *forks, int philos)
 	}
 }
 
-void	init_data(t_data *data, t_philo *philos, char **argv)
+void	init_data(t_data *data, t_philo *philos, char **argv, pthread_mutex_t *forks)
 {
 	data->philos_count = ft_atoi(argv[1]);
 	data->time_to_die = ft_atoi(argv[2]);
@@ -66,10 +66,10 @@ void	init_data(t_data *data, t_philo *philos, char **argv)
 		data->meals = -1;
 	data->drink_poison = 0;
 	data->philosophers = philos;
+	data->forks = forks;
 	pthread_mutex_init(&data->dead_lock, NULL);
 	pthread_mutex_init(&data->write_lock, NULL);
 	pthread_mutex_init(&data->meal_lock, NULL);
-	
 }
 
 int main(int argc, char **argv)
@@ -77,17 +77,15 @@ int main(int argc, char **argv)
 	t_data			data;//data struct
 	t_philo			philos[PHILOS_MAX];//philosophers
 	pthread_mutex_t	forks[PHILOS_MAX];//forks
-	int				i;
 	
-	i = 0;
 	if (check_args(argc, argv) == 1)//check args. What should this return?
 		return (0);
 	else
 	{
-		init_data(&data, philos, argv);
 		init_forks(forks, ft_atoi(argv[1]));
+		init_data(&data, philos, argv, forks);
 		init_philos(philos, &data, forks);
-		create_threads(&data, forks);//should this return something?
+		create_threads(&data);//should this return something?
 	}
 	return (0);
 }
