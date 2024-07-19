@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pikkak <pikkak@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kkauhane <kkauhane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 14:21:15 by pikkak            #+#    #+#             */
-/*   Updated: 2024/07/09 14:46:43 by pikkak           ###   ########.fr       */
+/*   Updated: 2024/07/19 14:55:53 by kkauhane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,14 @@ void	init_philos(t_philo *philos, t_data *data, pthread_mutex_t *forks)
 	while (i < data->philos_count)
 	{
 		philos[i].id = i + 1;
+		philos[i].philos_count = &data->philos_count;
+		philos[i].time_to_die = &data->time_to_die;
+		philos[i].time_to_sleep = &data->time_to_sleep;
+		philos[i].time_to_eat = &data->time_to_eat;
 		philos[i].eating = 0;
-		philos[i].start = get_current_time();
-		philos[i].last_ate = get_current_time();
+		philos[i].start = get_time();
+		philos[i].last_ate = get_time();
+		philos[i].meals = &data->meals;
 		philos[i].meals_count = 0;
 		philos[i].drink_poison = &data->drink_poison;
 		philos[i].dead_lock = &data->dead_lock;
@@ -49,9 +54,9 @@ void	init_forks(pthread_mutex_t *forks, int philos)
 	}
 }
 
-void	init_data(struct t_data *data, struct t_philo *philos, char **argv)
+void	init_data(t_data *data, t_philo *philos, char **argv)
 {
-	data->philos = ft_atoi(argv[1]);
+	data->philos_count = ft_atoi(argv[1]);
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
 	data->time_to_sleep = ft_atoi(argv[4]);
@@ -60,29 +65,28 @@ void	init_data(struct t_data *data, struct t_philo *philos, char **argv)
 	else
 		data->meals = -1;
 	data->drink_poison = 0;
-	data->philos = philos;
+	data->philosophers = philos;
 	pthread_mutex_init(&data->dead_lock, NULL);
 	pthread_mutex_init(&data->write_lock, NULL);
 	pthread_mutex_init(&data->meal_lock, NULL);
+	
 }
 
 int main(int argc, char **argv)
 {
-	t_data			data;
-	t_philo			philos[PHILOS_MAX]
-	pthread_mutex_t	forks[PHILOS_MAX]
+	t_data			data;//data struct
+	t_philo			philos[PHILOS_MAX];//philosophers
+	pthread_mutex_t	forks[PHILOS_MAX];//forks
 	int				i;
 	
 	i = 0;
-	if(argc < 5 || argc > 6)//return 1
-		error("Wrong amount of arguments");
-	else if (check_args(args) == 1)//return 1
-		error("Wrong amount of arguments");
+	if (check_args(argc, argv) == 1)//check args. What should this return?
+		return (0);
 	else
 	{
 		init_data(&data, philos, argv);
 		init_forks(forks, ft_atoi(argv[1]));
-		init_philos(&philos, &data, forks);
+		init_philos(philos, &data, forks);
 		create_threads(&data, forks);//should this return something?
 	}
 	return (0);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pikkak <pikkak@student.42.fr>              +#+  +:+       +#+         #
+#    By: kkauhane <kkauhane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 14:21:44 by pikkak            #+#    #+#              #
-#    Updated: 2024/07/04 14:27:58 by pikkak           ###   ########.fr        #
+#    Updated: 2024/07/19 14:58:20 by kkauhane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,6 @@ OBJS = $(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@ar -r $(NAME) $(OBJS)
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
 
 clean:

@@ -6,17 +6,27 @@
 /*   By: kkauhane <kkauhane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 14:23:52 by pikkak            #+#    #+#             */
-/*   Updated: 2024/07/05 13:27:28 by kkauhane         ###   ########.fr       */
+/*   Updated: 2024/07/19 14:52:17 by kkauhane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 
-int error(char *message)
+// Gets the current time in milliseconds
+
+size_t	get_time(void)
 {
-	printf("Error: %s\n" message);
-	exit ();	
+	struct timeval	time;
+
+	if (gettimeofday(&time, NULL) == -1)
+		write(2, "gettimeofday() error\n", 22);
+	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+}
+
+void error(char *message)//can we use exit?
+{
+	printf("Error: %s\n", message);
 }
 
 static int	count_signs(const char *s, int i)
@@ -66,28 +76,40 @@ int	ft_isdigit(char *arg)//if there is a minus this returns 1
 	i = 0;
 	while (arg[i] != '\0')
 	{
-		if (c >= '0' && c <= '9')
+		if (i >= '0' && i <= '9')
 			return (1);
 		i++;
 	}
 	return (0);
 }
 
-void	check_args(char **args)
+int	check_args(int argc, char **argv)
 {
 	int	i;
 
 	i = 1;
-	if (argv[1] > PHILOS_MAX)
-		error("Too many philosophers\n");
-	while (argv[i])
+	if (argc < 5 || argc > 6)
 	{
-		if (ft_isdigit(argv[i]) == 1)//doesn't this already check if there is a minus?
-			error("Wrong type of argument\n");
-		if (i < 5 && ft_atoi(argv[i]) <= 0)
-			error("Argument too small\n");
-		if (i == 5 && ft_atoi(argv[i]) < 0)//the last argument
-			error("Argument too small\n");
-		i++;
+		error("Wrong amount of arguments");
+		return (1);
 	}
+	else if (ft_atoi(argv[1]) > PHILOS_MAX)
+	{
+		error("Too many philosophers\n");
+		return (1);
+	}
+	else
+	{
+		while (argv[i])
+		{
+			if (ft_isdigit(argv[i]) == 1)//doesn't this already check if there is a minus?
+				error("Wrong type of argument\n");
+			if (i < 5 && ft_atoi(argv[i]) <= 0)
+				error("Argument too small\n");
+			if (i == 5 && ft_atoi(argv[i]) < 0)//the last argument
+				error("Argument too small\n");
+			i++;
+		}
+	}
+	return (0);
 }
