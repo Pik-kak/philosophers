@@ -6,7 +6,7 @@
 /*   By: pikkak <pikkak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 14:23:52 by pikkak            #+#    #+#             */
-/*   Updated: 2024/07/20 21:48:05 by pikkak           ###   ########.fr       */
+/*   Updated: 2024/07/20 23:08:39 by pikkak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ int	usleep_mod(size_t ms)
 		usleep(500);
 	return (0);
 }
-
-// Gets the current time in milliseconds
 
 size_t	get_time(void)
 {
@@ -73,14 +71,14 @@ int	ft_atoi(const char *str)
 	return (result);
 }
 
-int	ft_isdigit(char *arg)//if there is a minus this returns 1
+static int	ft_isdigit(char *argv)//if there is a minus or  Something is wrong here
 {
 	int i;
 	
 	i = 0;
-	while (arg[i] != '\0')
+	while (argv[i] != '\0')
 	{
-		if (i >= '0' && i <= '9')
+		if (argv[i] < '0' || argv[i] > '9')
 			return (1);
 		i++;
 	}
@@ -92,24 +90,19 @@ int	check_args(char **argv)
 	int	i;
 
 	i = 1;
-	if (ft_atoi(argv[1]) > PHILOS_MAX || ft_isdigit(argv[1]) == 1)
+	while (argv[i])
+	{
+		if (ft_isdigit(argv[i]) == 1 || ft_atoi(argv[i]) <= 0)//doesn't this already check if there is a minus?
+		{
+			printf("Wrong type of argument\n");
+			return (1);
+		}
+		i++;
+	}
+	if (ft_atoi(argv[1]) > PHILOS_MAX)
 	{
 		printf("Too many philosophers\n");
 		return (1);
-	}
-	else
-	{
-		while (argv[i])
-		{
-			if (ft_isdigit(argv[i]) == 1)//doesn't this already check if there is a minus?
-			{
-				printf("Wrong type of argument\n");
-				return (1);
-			}
-			if (ft_atoi(argv[i]) <= 0)
-				printf("Argument too small\n");
-			i++;
-		}
 	}
 	return (0);
 }

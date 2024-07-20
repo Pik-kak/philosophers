@@ -6,28 +6,33 @@
 /*   By: pikkak <pikkak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 14:21:15 by pikkak            #+#    #+#             */
-/*   Updated: 2024/07/20 22:00:54 by pikkak           ###   ########.fr       */
+/*   Updated: 2024/07/20 22:11:05 by pikkak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	init_philos(t_philo *philos, t_data *data, pthread_mutex_t *forks)
+static void	init_argv(t_data *data, t_philo *philo)
+{
+		philo->philos_count = &data->philos_count;
+		philo->time_to_die = &data->time_to_die;
+		philo->time_to_sleep = &data->time_to_sleep;
+		philo->time_to_eat = &data->time_to_eat;
+		philo->meals = &data->meals;
+}
+
+static void	init_philos(t_philo *philos, t_data *data, pthread_mutex_t *forks)
 {
 	int i;
 
 	i = 0;
 	while (i < data->philos_count)
 	{
+		init_argv(data, &philos[i]);
 		philos[i].id = i + 1;
-		philos[i].philos_count = &data->philos_count;
-		philos[i].time_to_die = &data->time_to_die;
-		philos[i].time_to_sleep = &data->time_to_sleep;
-		philos[i].time_to_eat = &data->time_to_eat;
-		philos[i].eating = 0;
 		philos[i].start = get_time();
 		philos[i].last_ate = get_time();
-		philos[i].meals = &data->meals;
+		philos[i].eating = 0;
 		philos[i].meals_count = 0;
 		philos[i].drink_poison = &data->drink_poison;
 		philos[i].dead_lock = &data->dead_lock;
@@ -42,13 +47,7 @@ void	init_philos(t_philo *philos, t_data *data, pthread_mutex_t *forks)
 	}
 }
 
-void	init_argv(t_data *data, t_philo *philos, char **argv)
-{
-	
-	
-}
-
-void	init_data(t_data *data, t_philo *philos, char **argv, pthread_mutex_t *forks)
+static void	init_data(t_data *data, t_philo *philos, char **argv, pthread_mutex_t *forks)
 {
 	data->philos_count = ft_atoi(argv[1]);
 	data->time_to_die = ft_atoi(argv[2]);

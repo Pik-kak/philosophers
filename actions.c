@@ -6,13 +6,13 @@
 /*   By: pikkak <pikkak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 14:21:36 by pikkak            #+#    #+#             */
-/*   Updated: 2024/07/20 21:14:38 by pikkak           ###   ########.fr       */
+/*   Updated: 2024/07/20 22:15:07 by pikkak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	dead(t_philo *philo)
+static int	dead(t_philo *philo)
 {
 	pthread_mutex_lock(philo->dead_lock);
 	if (*philo->drink_poison == 1)
@@ -35,13 +35,13 @@ void	print_message(char *message, t_philo *philo)
 	pthread_mutex_unlock(philo->write_lock);
 }
 
-void	nap(t_philo *philo)
+static void	nap(t_philo *philo)
 {
 	print_message("is sleeping", philo);
 	usleep_mod(*philo->time_to_sleep);
 }
 
-void	eat(t_philo *philo)
+static void	eat(t_philo *philo)
 {
 	pthread_mutex_lock(philo->right_fork);
 	print_message("has taken a fork", philo);

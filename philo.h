@@ -6,7 +6,7 @@
 /*   By: pikkak <pikkak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 14:19:59 by pikkak            #+#    #+#             */
-/*   Updated: 2024/07/20 21:48:19 by pikkak           ###   ########.fr       */
+/*   Updated: 2024/07/20 22:13:48 by pikkak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,20 @@
 
 typedef struct s_philo
 {
-	pthread_t		thread;//thread id
-	int				id;//number of the philosopher
+	pthread_t		thread;
+	int				id;
 	int				*philos_count;
 	size_t			*time_to_die;
 	size_t			*time_to_eat;
 	size_t			*time_to_sleep;
 	size_t			start;
-	int				eating;//do we need this?
-	size_t				last_ate;//the timestamp of the last meal
+	int				eating;
+	size_t			last_ate;
 	int				*meals;
-	int				meals_count;//meals ate
-	int				*drink_poison;//pointer to the dead flag in data
-	pthread_mutex_t	*right_fork;//pointer to the fork on the right
-	pthread_mutex_t	*left_fork;//pointer to the fork on the left
+	int				meals_count;
+	int				*drink_poison;
+	pthread_mutex_t	*right_fork;
+	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*dead_lock;
 	pthread_mutex_t	*write_lock;
 	pthread_mutex_t	*meal_lock;
@@ -49,19 +49,17 @@ typedef struct s_data
 	size_t				time_to_eat;
 	size_t				time_to_sleep;
 	int					meals;
-	int					drink_poison;//dead flag
-	pthread_mutex_t		*forks;//mutexes for all the forks
+	int					drink_poison;
+	pthread_mutex_t		*forks;
 	pthread_mutex_t		dead_lock;
 	pthread_mutex_t		write_lock;
 	pthread_mutex_t		meal_lock;
-	t_philo				*philosophers;//Array of philosophers
+	t_philo				*philosophers;
 }			t_data;
 
 //utils.c
 int		check_args(char **args);
-// int		ft_isdigit(char *arg);
 int		ft_atoi(const char *str);
-//static int	count_signs(const char *s, int i);
 size_t	get_time(void);
 int		usleep_mod(size_t milliseconds);
 
@@ -75,9 +73,7 @@ void	destroy_threads(char *message, t_data *data, pthread_mutex_t *forks);
 
 //actions.c
 void	*routine(void *pointer);
-void	eat(t_philo *philo);
-void	nap(t_philo *philo);
 void	print_message(char *message, t_philo *philo);
-int		dead(t_philo *philo);
+//int		dead(t_philo *philo);
 
 #endif
