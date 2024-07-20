@@ -6,7 +6,7 @@
 /*   By: pikkak <pikkak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 14:19:59 by pikkak            #+#    #+#             */
-/*   Updated: 2024/07/19 18:55:56 by pikkak           ###   ########.fr       */
+/*   Updated: 2024/07/20 21:48:19 by pikkak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,19 +57,13 @@ typedef struct s_data
 	t_philo				*philosophers;//Array of philosophers
 }			t_data;
 
-//main.c
-void	init_data(t_data *data, t_philo *philos, char **argv, pthread_mutex_t *forks);
-void	init_forks(pthread_mutex_t *forks, int philos);
-void	init_philos(t_philo *philos, t_data *data, pthread_mutex_t *forks);
-
 //utils.c
-int	check_args(int argc, char **args);
-int		ft_isdigit(char *arg);
+int		check_args(char **args);
+// int		ft_isdigit(char *arg);
 int		ft_atoi(const char *str);
 //static int	count_signs(const char *s, int i);
-void 	error(char *message);
 size_t	get_time(void);
-int	ft_usleep(size_t milliseconds);
+int		usleep_mod(size_t milliseconds);
 
 //philo.c
 int		create_threads(t_data *data);

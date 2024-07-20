@@ -6,7 +6,7 @@
 /*   By: pikkak <pikkak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 14:21:15 by pikkak            #+#    #+#             */
-/*   Updated: 2024/07/19 18:11:57 by pikkak           ###   ########.fr       */
+/*   Updated: 2024/07/20 22:00:54 by pikkak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,10 @@ void	init_philos(t_philo *philos, t_data *data, pthread_mutex_t *forks)
 	}
 }
 
-void	init_forks(pthread_mutex_t *forks, int philos)
+void	init_argv(t_data *data, t_philo *philos, char **argv)
 {
-	int	i;
-
-	i = 0;
-	while (i < philos)
-	{
-		pthread_mutex_init(&forks[i], NULL);
-		i++;
-	}
+	
+	
 }
 
 void	init_data(t_data *data, t_philo *philos, char **argv, pthread_mutex_t *forks)
@@ -72,21 +66,37 @@ void	init_data(t_data *data, t_philo *philos, char **argv, pthread_mutex_t *fork
 	pthread_mutex_init(&data->meal_lock, NULL);
 }
 
+static void	init_forks(pthread_mutex_t *forks, int philos)
+{
+	int	i;
+
+	i = 0;
+	while (i < philos)
+	{
+		pthread_mutex_init(&forks[i], NULL);//should we protect this?
+		i++;
+	}
+}
+
 int main(int argc, char **argv)
 {
-	t_data			data;//data struct
-	t_philo			philos[PHILOS_MAX];//philosophers
-	pthread_mutex_t	forks[PHILOS_MAX];//forks
+	t_data			data;
+	t_philo			philos[PHILOS_MAX];
+	pthread_mutex_t	forks[PHILOS_MAX];
 	
-	if (check_args(argc, argv) == 1)//check args. What should this return?
-		return (0);
-	else
+	if (argc < 5 || argc > 6)
 	{
-		init_forks(forks, ft_atoi(argv[1]));
-		init_data(&data, philos, argv, forks);
-		init_philos(philos, &data, forks);
-		create_threads(&data);//should this return something?
+		printf("Wrong amount of arguments\n");
+		return (1);
 	}
+	if (check_args(argv) == 1)
+		return (1);
+	init_forks(forks, ft_atoi(argv[1]));
+	init_data(&data, philos, argv, forks);
+	init_philos(philos, &data, forks);
+	if (create_threads(&data) == 1)
+		return (1);
+	destroy_threads(NULL, &data, forks);
 	return (0);
 }
 

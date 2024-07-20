@@ -6,7 +6,7 @@
 /*   By: pikkak <pikkak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 14:21:07 by pikkak            #+#    #+#             */
-/*   Updated: 2024/07/19 19:15:54 by pikkak           ###   ########.fr       */
+/*   Updated: 2024/07/20 21:43:15 by pikkak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // Destroys all the mutexes
 
-void	destroy_threads(char *message, t_data *data, pthread_mutex_t *forks)//should this exit?
+void	destroy_threads(char *message, t_data *data, pthread_mutex_t *forks)
 {
 	int	i;
 
@@ -118,7 +118,7 @@ int	create_threads(t_data *data)
 	int			i;
 	
 	i = 0;
-	if (pthread_create(&monitor, NULL, &monitoring, data->philosophers) != 0)//create monitor
+	if (pthread_create(&monitor, NULL, &monitoring, data->philosophers) != 0)
 		destroy_threads("Error in creating monitor thread", data, data->forks);
 	while (i < data->philos_count)//create philos
 	{

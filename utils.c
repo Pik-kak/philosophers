@@ -6,19 +6,18 @@
 /*   By: pikkak <pikkak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 14:23:52 by pikkak            #+#    #+#             */
-/*   Updated: 2024/07/19 18:56:07 by pikkak           ###   ########.fr       */
+/*   Updated: 2024/07/20 21:48:05 by pikkak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-
-int	ft_usleep(size_t milliseconds)
+int	usleep_mod(size_t ms)
 {
 	size_t	start;
 
 	start = get_time();
-	while ((get_time() - start) < milliseconds)
+	while ((get_time() - start) < ms)
 		usleep(500);
 	return (0);
 }
@@ -30,13 +29,8 @@ size_t	get_time(void)
 	struct timeval	time;
 
 	if (gettimeofday(&time, NULL) == -1)
-		write(2, "gettimeofday() error\n", 22);
+		printf("Error in gettimeofday()\n");
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
-}
-
-void error(char *message)//can we use exit?
-{
-	printf("Error: %s\n", message);
 }
 
 static int	count_signs(const char *s, int i)
@@ -93,19 +87,14 @@ int	ft_isdigit(char *arg)//if there is a minus this returns 1
 	return (0);
 }
 
-int	check_args(int argc, char **argv)
+int	check_args(char **argv)
 {
 	int	i;
 
 	i = 1;
-	if (argc < 5 || argc > 6)
+	if (ft_atoi(argv[1]) > PHILOS_MAX || ft_isdigit(argv[1]) == 1)
 	{
-		error("Wrong amount of arguments");
-		return (1);
-	}
-	else if (ft_atoi(argv[1]) > PHILOS_MAX)
-	{
-		error("Too many philosophers\n");
+		printf("Too many philosophers\n");
 		return (1);
 	}
 	else
@@ -113,11 +102,12 @@ int	check_args(int argc, char **argv)
 		while (argv[i])
 		{
 			if (ft_isdigit(argv[i]) == 1)//doesn't this already check if there is a minus?
-				error("Wrong type of argument\n");
-			if (i < 5 && ft_atoi(argv[i]) <= 0)
-				error("Argument too small\n");
-			if (i == 5 && ft_atoi(argv[i]) < 0)//the last argument
-				error("Argument too small\n");
+			{
+				printf("Wrong type of argument\n");
+				return (1);
+			}
+			if (ft_atoi(argv[i]) <= 0)
+				printf("Argument too small\n");
 			i++;
 		}
 	}
