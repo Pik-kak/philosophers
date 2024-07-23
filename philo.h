@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pikkak <pikkak@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kkauhane <kkauhane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 14:19:59 by pikkak            #+#    #+#             */
-/*   Updated: 2024/07/20 22:13:48 by pikkak           ###   ########.fr       */
+/*   Updated: 2024/07/22 16:59:53 by kkauhane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/time.h>
-#include <pthread.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/time.h>
+# include <pthread.h>
 
 # define PHILOS_MAX 200
 
@@ -30,7 +30,6 @@ typedef struct s_philo
 	size_t			*time_to_eat;
 	size_t			*time_to_sleep;
 	size_t			start;
-	int				eating;
 	size_t			last_ate;
 	int				*meals;
 	int				meals_count;
@@ -58,22 +57,17 @@ typedef struct s_data
 }			t_data;
 
 //utils.c
-int		check_args(char **args);
+int		check_args(char **argv);
 int		ft_atoi(const char *str);
 size_t	get_time(void);
 int		usleep_mod(size_t milliseconds);
 
 //philo.c
 int		create_threads(t_data *data);
-void	*monitoring(void *pointer);
-int		check_if_all_ate(t_philo *philos);
-int		check_if_dead(t_philo *philos);
-int		philosopher_dead(t_philo *philo, size_t time_to_die);
-void	destroy_threads(char *message, t_data *data, pthread_mutex_t *forks);
+void	destroy_mtx(char *message, t_data *data, pthread_mutex_t *forks);
 
 //actions.c
 void	*routine(void *pointer);
 void	print_message(char *message, t_philo *philo);
-//int		dead(t_philo *philo);
 
 #endif

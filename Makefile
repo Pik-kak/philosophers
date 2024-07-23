@@ -3,12 +3,13 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kkauhane <kkauhane@student.42.fr>          +#+  +:+       +#+         #
+#    By: kkauhane <kkauhane@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/07/04 14:21:44 by pikkak            #+#    #+#              #
-#    Updated: 2024/07/19 14:58:20 by kkauhane         ###   ########.fr        #
+#    Created: 2024/07/22 14:01:04 by kkauhane          #+#    #+#              #
+#    Updated: 2024/07/22 14:08:39 by kkauhane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 NAME = philo
 

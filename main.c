@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pikkak <pikkak@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kkauhane <kkauhane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 14:21:15 by pikkak            #+#    #+#             */
-/*   Updated: 2024/07/20 22:11:05 by pikkak           ###   ########.fr       */
+/*   Updated: 2024/07/22 17:00:01 by kkauhane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 static void	init_argv(t_data *data, t_philo *philo)
 {
-		philo->philos_count = &data->philos_count;
-		philo->time_to_die = &data->time_to_die;
-		philo->time_to_sleep = &data->time_to_sleep;
-		philo->time_to_eat = &data->time_to_eat;
-		philo->meals = &data->meals;
+	philo->philos_count = &data->philos_count;
+	philo->time_to_die = &data->time_to_die;
+	philo->time_to_sleep = &data->time_to_sleep;
+	philo->time_to_eat = &data->time_to_eat;
+	philo->meals = &data->meals;
 }
 
 static void	init_philos(t_philo *philos, t_data *data, pthread_mutex_t *forks)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < data->philos_count)
@@ -32,7 +32,6 @@ static void	init_philos(t_philo *philos, t_data *data, pthread_mutex_t *forks)
 		philos[i].id = i + 1;
 		philos[i].start = get_time();
 		philos[i].last_ate = get_time();
-		philos[i].eating = 0;
 		philos[i].meals_count = 0;
 		philos[i].drink_poison = &data->drink_poison;
 		philos[i].dead_lock = &data->dead_lock;
@@ -43,11 +42,11 @@ static void	init_philos(t_philo *philos, t_data *data, pthread_mutex_t *forks)
 			philos[i].right_fork = &forks[data->philos_count - 1];
 		else
 			philos[i].right_fork = &forks[i - 1];
-		i++;	
+		i++;
 	}
 }
 
-static void	init_data(t_data *data, t_philo *philos, char **argv, pthread_mutex_t *forks)
+static void	init_data(t_data *data, t_philo *p, char **argv, pthread_mutex_t *f)
 {
 	data->philos_count = ft_atoi(argv[1]);
 	data->time_to_die = ft_atoi(argv[2]);
@@ -58,8 +57,8 @@ static void	init_data(t_data *data, t_philo *philos, char **argv, pthread_mutex_
 	else
 		data->meals = -1;
 	data->drink_poison = 0;
-	data->philosophers = philos;
-	data->forks = forks;
+	data->philosophers = p;
+	data->forks = f;
 	pthread_mutex_init(&data->dead_lock, NULL);
 	pthread_mutex_init(&data->write_lock, NULL);
 	pthread_mutex_init(&data->meal_lock, NULL);
@@ -72,17 +71,17 @@ static void	init_forks(pthread_mutex_t *forks, int philos)
 	i = 0;
 	while (i < philos)
 	{
-		pthread_mutex_init(&forks[i], NULL);//should we protect this?
+		pthread_mutex_init(&forks[i], NULL);
 		i++;
 	}
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_data			data;
 	t_philo			philos[PHILOS_MAX];
 	pthread_mutex_t	forks[PHILOS_MAX];
-	
+
 	if (argc < 5 || argc > 6)
 	{
 		printf("Wrong amount of arguments\n");
@@ -95,7 +94,6 @@ int main(int argc, char **argv)
 	init_philos(philos, &data, forks);
 	if (create_threads(&data) == 1)
 		return (1);
-	destroy_threads(NULL, &data, forks);
+	destroy_mtx(NULL, &data, forks);
 	return (0);
 }
-

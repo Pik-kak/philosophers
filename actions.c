@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pikkak <pikkak@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kkauhane <kkauhane@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 14:21:36 by pikkak            #+#    #+#             */
-/*   Updated: 2024/07/20 22:15:07 by pikkak           ###   ########.fr       */
+/*   Updated: 2024/07/22 15:25:28 by kkauhane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	print_message(char *message, t_philo *philo)
 
 	pthread_mutex_lock(philo->write_lock);
 	time = get_time() - philo->start;
-	if (dead(philo) == 0)
+	if (!dead(philo))
 		printf("%d %d %s\n", time, philo->id, message);
 	pthread_mutex_unlock(philo->write_lock);
 }
@@ -53,14 +53,12 @@ static void	eat(t_philo *philo)
 	}
 	pthread_mutex_lock(philo->left_fork);
 	print_message("has taken a fork", philo);
-	philo->eating = 1;
 	print_message("is eating", philo);
 	pthread_mutex_lock(philo->meal_lock);
 	philo->last_ate = get_time();
-	philo->meals_count++;
 	pthread_mutex_unlock(philo->meal_lock);
 	usleep_mod(*philo->time_to_eat);
-	philo->eating = 0;//should this be inside a meal_lock?
+	philo->meals_count++;
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);
 }
@@ -71,7 +69,7 @@ void	*routine(void *pointer)
 
 	philo = (t_philo *)pointer;
 	if (philo->id % 2 == 0)
-		usleep_mod(1);
+		usleep_mod(*philo->time_to_eat);
 	while (dead(philo) != 1)
 	{
 		eat(philo);
